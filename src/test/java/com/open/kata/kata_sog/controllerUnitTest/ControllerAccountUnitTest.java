@@ -31,6 +31,7 @@ import com.open.kata.kata_sog.controller.ControllerAccount;
 import com.open.kata.kata_sog.domaine.entities.Account;
 import com.open.kata.kata_sog.domaine.entities.Operation;
 import com.open.kata.kata_sog.domaine.services.IBankService;
+import java.time.Clock;
 
 import java.time.LocalDate;
 
@@ -77,7 +78,7 @@ public class ControllerAccountUnitTest {
         operation.setOperation("deposit");
         operation.getAccount().setNumAccount(1L);
         operation.setCodeOperation(1L);
-        operation.setDate(LocalDate.now());
+        operation.setDate(LocalDate.now(Clock.systemDefaultZone()));
         List<Operation> listOperation = new ArrayList<>();
         listOperation.add(operation);
 
@@ -176,4 +177,5 @@ public class ControllerAccountUnitTest {
         verifyNoMoreInteractions(iBanqueServiceMock);
 
     }
+    
 }

@@ -6,18 +6,14 @@
 package com.open.kata.kata_sog.controllerInegrationTest;
 
 import com.open.kata.kata_sog.domaine.entities.Account;
-import com.open.kata.kata_sog.domaine.entities.Customer;
 import com.open.kata.kata_sog.domaine.entities.Operation;
-import java.lang.management.OperatingSystemMXBean;
 import java.net.URI;
-import java.time.LocalDate;
 import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -54,14 +50,12 @@ public class ControllerAccountTest {
         account.setNumAccount(2L);
         operation1.setOperation("deposit");
         operation1.setAmount(1500.0);
-        operation1.setDate(LocalDate.now());
         operation1.setAccount(account);
 
         Operation operation2 = new Operation();
         account.setNumAccount(2L);
         operation2.setOperation("deposit");
         operation2.setAmount(200.50);
-        operation2.setDate(LocalDate.now());
         operation2.setAccount(account);
 
         HttpEntity<Operation> requestEntity1 = new HttpEntity<>(operation1, headers);
@@ -72,8 +66,11 @@ public class ControllerAccountTest {
 
         // then
         System.out.println("Status Code: " + responseEntity1.getStatusCode());
-        System.out.println("Code Operation: " + responseEntity1.getBody().getCodeOperation());
-        System.out.println("New Balance +: " + responseEntity1.getBody().getNewBbalance());
+        if (responseEntity1.hasBody()) {
+            System.out.println("Type Operation: " + responseEntity1.getBody().getOperation());
+            System.out.println("Code Operation: " + responseEntity1.getBody().getCodeOperation());
+            System.out.println("New Balance +: " + responseEntity1.getBody().getNewBbalance());
+        }
         System.out.println("Location: " + responseEntity1.getHeaders().getLocation());
 
         assertThat(responseEntity1.getStatusCodeValue()).isEqualTo(200);
@@ -101,14 +98,12 @@ public class ControllerAccountTest {
         account.setNumAccount(2L);
         operation1.setOperation("withdrawal");
         operation1.setAmount(300.0);
-        operation1.setDate(LocalDate.now());
         operation1.setAccount(account);
 
         Operation operation2 = new Operation();
         account.setNumAccount(2L);
         operation2.setOperation("withdrawal");
         operation2.setAmount(200.0);
-        operation2.setDate(LocalDate.now());
         operation2.setAccount(account);
 
         HttpEntity<Operation> requestEntity1 = new HttpEntity<>(operation1, headers);
@@ -119,8 +114,11 @@ public class ControllerAccountTest {
 
         // then
         System.out.println("Status Code: " + responseEntity1.getStatusCode());
-        System.out.println("Code Operation: " + responseEntity1.getBody().getCodeOperation());
-        System.out.println("New Balance +: " + responseEntity1.getBody().getNewBbalance());
+        if (responseEntity1.hasBody()) {
+            System.out.println("Type Operation: " + responseEntity1.getBody().getOperation());
+            System.out.println("Code Operation: " + responseEntity1.getBody().getCodeOperation());
+            System.out.println("New Balance +: " + responseEntity1.getBody().getNewBbalance());
+        }
         System.out.println("Location: " + responseEntity1.getHeaders().getLocation());
 
         assertThat(responseEntity1.getStatusCodeValue()).isEqualTo(200);

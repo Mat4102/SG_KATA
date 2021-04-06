@@ -16,6 +16,8 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.open.kata.kata_sog.infrastructure.OperationDaoRepository;
+import java.time.Clock;
+import java.time.LocalDate;
 import lombok.Data;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -48,6 +50,7 @@ public class BankServiceImpl implements IBankService {
 
     @Override
     public Account saveAccount(Account a) {
+        a.setCreatDate(LocalDate.now(Clock.systemDefaultZone()));
         return accountDaoRepository.save(a);
     }
 
@@ -68,6 +71,7 @@ public class BankServiceImpl implements IBankService {
                 Account acc = accountDaoRepository.getOne(operation.getAccount().getNumAccount());
                 acc.setBalance(acc.getBalance() + operation.getAmount());
                 operation.setNewBbalance(acc.getBalance());
+                operation.setDate(LocalDate.now(Clock.systemDefaultZone()));
                 accountDaoRepository.save(acc);
                 return operationDaoRepository.save(operation);
 
@@ -82,10 +86,11 @@ public class BankServiceImpl implements IBankService {
     @Override
     public Operation withdrawalOperation(Operation operation) {
         if (operationDaoRepository != null) {
-             Account acc = accountDaoRepository.getOne(operation.getAccount().getNumAccount());
+            Account acc = accountDaoRepository.getOne(operation.getAccount().getNumAccount());
             if (operation.getAmount() > 0 && operation.getAmount() <= acc.getDebitMax()) {
                 acc.setBalance(acc.getBalance() - operation.getAmount());
                 operation.setNewBbalance(acc.getBalance());
+                operation.setDate(LocalDate.now(Clock.systemDefaultZone()));
                 accountDaoRepository.save(acc);
                 return operationDaoRepository.save(operation);
             } else {

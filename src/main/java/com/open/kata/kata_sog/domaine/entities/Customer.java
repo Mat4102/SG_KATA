@@ -40,5 +40,14 @@ public class Customer implements Serializable {
     @JsonIgnore
     @OneToMany(mappedBy = "customer")
     private List<Account> accountList;
+
+    public Customer(Long idCustomer, String firastName, String lastName, List<Account> accountList) {
+        this.idCustomer = idCustomer;
+        this.firastName = firastName;
+        this.lastName = lastName;
+        this.accountList = accountList;
+    }
    
+    
+    
 }

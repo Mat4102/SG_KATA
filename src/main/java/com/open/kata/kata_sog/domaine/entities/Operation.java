@@ -40,4 +40,14 @@ public class Operation implements Serializable {
     @ManyToOne
     @JoinColumn(name="numAccount")
     private Account account;
+
+    public Operation(String operation, double amount, double newBbalance, Account account) {
+        this.operation = operation;
+        this.amount = amount;
+        this.newBbalance = newBbalance;
+        this.account = account;
+    }
+    
+    
+    
 }

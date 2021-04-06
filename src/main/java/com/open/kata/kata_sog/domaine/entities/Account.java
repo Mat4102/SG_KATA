@@ -40,11 +40,20 @@ public class Account implements Serializable {
     private Long numAccount;
     private double debitMax;
     private LocalDate creatDate;
-    private double balance; 
+    private double balance;
     @JsonIgnore
     @OneToMany(mappedBy = "account")
     private List<Operation> operationList;
     @ManyToOne
     @JoinColumn(name = "idCustomer")
     private Customer customer;
+
+    public Account(Long numAccount, double debitMax, double balance, List<Operation> operationList, Customer customer) {
+        this.numAccount = numAccount;
+        this.debitMax = debitMax;
+        this.balance = balance;
+        this.operationList = operationList;
+        this.customer = customer;
+    }
+
 }
